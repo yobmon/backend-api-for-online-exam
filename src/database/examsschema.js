@@ -1,32 +1,23 @@
+const { DataTypes } = require('sequelize');
+const sequelize = require('./db');
+const StudentExam = require('./studentExam');
 
-
-
-const { text } = require("express");
-const mongoose = require("mongoose")
-const answerSchema = new mongoose.Schema({
+const Answer = sequelize.define('Answer', {
   text: {
-      type: String,
-      required: true,
-    },
-    isCorrect: {
-      type: Boolean,
-      required: true,
-    }
-  },{
-    _id:false
+    type: DataTypes.STRING,
+    allowNull: false
+  },
+  isCorrect: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false
+  }
+}, {
+  timestamps: false,
+  tableName: 'answers'
 });
 
-const studentexam= new mongoose.Schema({
-    question:{
-        type:String,
-        required:true
-    },
-    answer:[answerSchema]
+// Relationship: One question → many answers
+StudentExam.hasMany(Answer, { foreignKey: 'examId', as: 'answers' });
+Answer.belongsTo(StudentExam, { foreignKey: 'examId', as: 'question' });
 
-
-
-
-   })
-
-const student_exam= mongoose.model("student_exam",studentexam);
-module.exports =  student_exam ;
+module.exports = Answer;

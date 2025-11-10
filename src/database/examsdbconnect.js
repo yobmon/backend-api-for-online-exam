@@ -1,13 +1,19 @@
-const mongoose= require("mongoose");
+const mysql = require('mysql2');
 
-const connectstudentdb=async()=>{
-try{
-    await mongoose.createConnection('mongodb://localhost:27017/exams')
-      console.log("database2 connected succesefully")
-}
-catch(err){
-    console.log(err)
- }
+// Create a connection
+const connection = mysql.createConnection({
+  host: 'localhost',     
+  user: 'root',          
+  password: 'password',  
+  database: 'exam'   
+});
 
-} 
-module.exports=connectstudentdb;
+connection.connect((err) => {
+  if (err) {
+    console.error('❌ Error connecting to MySQL:', err);
+    return;
+  }
+  console.log('✅ Connected to MySQL!');
+});
+
+connection.end();

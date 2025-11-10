@@ -12,7 +12,27 @@ app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
 app.use('/',router)
+// app.js
+app.get('/danger', (req, res) => {
+  try {
+    // risky op
+  } catch (err) {
+    res.status(500).send(<pre>${err.stack}</pre>); // reveals stack trace
+  }
+});
 
+
+// app.use((err, req, res, next) => {
+//   // Log full error internally (file or log service)
+//   console.error(err);
+//   res.status(500).send('Internal server error'); // generic message
+// });
+
+// // Ensure env-driven config; never commit secrets
+// // Use HTTPS, set secure headers (helmet)
+// const helmet = require('helmet');
+// app.use(helmet());
+//this is the fixed version of the above code
 
 
 
